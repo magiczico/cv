@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+</style>
+</head>
+<body>
+    <!-- --------------------------------------------Web Storage API----------------------------- -->
+    <h1 style="text-align: center;">Web Storage API</h1>
+    
+    <h3>Local web storage, click on the button and it will save the number of clicks locally</h3>
+    <h3> and remembers it even if you close the tab and open it again.</h3>
+
+    <button onclick="clickCounter()" type="button">Click me!</button><br>
+    <div id="result"></div>
+        <script>
+    function clickCounter() {
+      if (typeof(Storage) !== "undefined") {
+        if (localStorage.clickcount) {
+          localStorage.clickcount = Number(localStorage.clickcount)+1;
+        } else {
+          localStorage.clickcount = 1;
+        }
+        document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+      } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+      }
+    }
+    </script>
+    <hr style="">
+
+
+    <h3>Session web storage, click on the button and it will save the number of clicks locally for one session only</h3>
+    <h3> and does NOT remember it after you close the tab and open it again >> will reset.</h3>
+
+    <button onclick="clickCounter2()" type="button">Click me!</button><br>
+    <div id="result2"></div>
+    <script>
+    function clickCounter2() {
+      if (typeof(Storage) !== "undefined") {
+        if (sessionStorage.clickcount) {
+          sessionStorage.clickcount = Number(sessionStorage.clickcount)+1;
+        } else {
+          sessionStorage.clickcount = 1;
+        }
+        document.getElementById("result2").innerHTML = "You have clicked the button " + sessionStorage.clickcount + " time(s) in this session.";
+      } else {
+        document.getElementById("result2").innerHTML = "Sorry, your browser does not support web storage...";
+      }
+    }
+    </script>
+    <hr> 
+
+
+    <!-- --------------------------------------------Web Worker----------------------------- -->
+    <h1 style="text-align: center;">Web Worker</h1>
+
+    <p>Count numbers: <output id="result3"></output></p>
+    <button onclick="startWorker()">Start Worker</button> 
+    <button onclick="stopWorker()">Stop Worker</button>
+
+    <script>
+    var w;
+
+    function startWorker() {
+      if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+          w = new Worker("demo_workers.js");
+        }
+        w.onmessage = function(event) {
+          document.getElementById("result3").innerHTML = event.data;
+        };
+      } else {
+        document.getElementById("result3").innerHTML = "Sorry, your browser does not support Web Workers...";
+      }
+    }
+
+    function stopWorker() { 
+      w.terminate();
+      w = undefined;
+    }
+    </script>  
+    <hr>
+
+
+
+
+</body>
+</html>
